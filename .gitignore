@@ -1,0 +1,5 @@
+#Dosier de cache python
+__pycache__/
+
+#Fichier contenant des informations sensibles
+secret.py
