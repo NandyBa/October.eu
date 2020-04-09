@@ -88,4 +88,4 @@ class October():
 
 app = October()
 app.login()
-
+app.createInvestmentsCsv()
