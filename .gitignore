@@ -3,3 +3,4 @@ __pycache__/
 
 #Fichier contenant des informations sensibles
 secret.py
+investments.csv

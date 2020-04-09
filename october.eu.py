@@ -1,5 +1,6 @@
 from selenium import webdriver
 from time import sleep
+import csv
 
 from secret import username, password
 from ProjectInvestment import ProjectInvestment
@@ -72,7 +73,17 @@ class October():
             investment = ProjectInvestment(name, country, score, rate, investment, back, toback)
             Investments.append(investment)
         return Investments
+
+    def createInvestmentsCsv(self):
+        Investments = self.getOrwnInvestments()
+        with open('investments.csv', 'w', newline='') as csvfile:
+            thewriter = csv.writer(csvfile, delimiter=';', dialect='excel')
+
+            thewriter.writerow(['Company name', 'Project number', 'Country', 'Score', 'Rate', 'Investment', 'Back', 'Toback'])
             
+            for investment in Investments:
+                thewriter.writerow([investment.name, investment.index, investment.country, investment.score, investment.rate,
+                                    investment.investment, investment.back, investment.toback])
         
 
 app = October()
