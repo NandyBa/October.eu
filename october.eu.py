@@ -24,10 +24,20 @@ class October():
         
         login_btn = self.driver.find_element_by_xpath('//*[@class="actions"]/button')
         login_btn.click()
+
+    def wait_until_page_has_loaded(self):
+        # on attend que la page soit chargée
+        while(not('pace-done' in self.driver.find_element_by_css_selector('body').get_attribute("class"))):
+            sleep(1)   
         
     def getOrwnInvestments(self):
+        self.wait_until_page_has_loaded() # on attend que la page soit chargée
+
+        sleep(3) #On attend quelques secondes avant de changer de page afin de récupérer les tokens d'identification
         self.driver.get('https://app.october.eu/transactions/loans')
-        sleep(10)
+
+        self.wait_until_page_has_loaded() # on attend que la page soit chargée
+
         load_all_projects_btn = self.driver.find_element_by_class_name('load-more')
         load_all_projects_btn.click()
         
