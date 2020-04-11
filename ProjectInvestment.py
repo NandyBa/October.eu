@@ -32,6 +32,16 @@ class ProjectInvestment():
         if('#' in name): #car actuelement les i-eme projets d'une entreprise sont appellés "nom de l'entreprise #i" et le premier uniquement "nom de l'entreprise"
             company_name = name.split('#')[0].rstrip()
             n = int(name.split('#')[1])
+        else:
+            #car précédement (avant 2019) les i-eme projets d'une entreprise étaient appellés "nom de l'entreprise i"
+            try:
+                p = int(name.split(' ')[-1])
+
+                if p <= 10: #Condition afin d'éviter tout les problèmes avec les marques type Sport 2000 ayant des nombre dans leur nom d'entreprise
+                    company_name = name.replace(' '+str(p), '')
+                    n = p
+            except:
+                n = 1
         return (company_name, n)
 
     def format_rate(self, rate):
