@@ -13,9 +13,7 @@ class October():
         return self.driver
 
     def login(self):
-        self.driver.get('https://fr.october.eu/')
-        login_page_btn = self.driver.find_element_by_xpath('//*[@id="button-log-in"]')
-        login_page_btn.click()
+        self.driver.get('https://app.october.eu/login')
         sleep(3)
         
         username_input = self.driver.find_element_by_xpath('//*[@name="email"]')
