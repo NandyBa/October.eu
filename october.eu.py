@@ -78,7 +78,7 @@ class October():
             back = li_tab[4].text
             toback = li_tab[5].text
 
-            investment = ProjectInvestment(name, country, score, rate, investment, back, toback)
+            investment = ProjectInvestment(name, country, score, rate, investment, back, toback, duration, remaining_period)
             Investments.append(investment)
         return Investments
 
@@ -87,11 +87,12 @@ class October():
         with open('investments.csv', 'w', newline='') as csvfile:
             thewriter = csv.writer(csvfile, delimiter=';', dialect='excel')
 
-            thewriter.writerow(['Company name', 'Project number', 'Country', 'Score', 'Rate', 'Investment', 'Back', 'Toback'])
+            thewriter.writerow(['Company name', 'Project number', 'Country', 'Score', 'Rate', 'Investment', 'Back', 'Toback', 'Durée du prêt',
+                                'Mois restants'])
             
             for investment in Investments:
                 thewriter.writerow([investment.name, investment.index, investment.country, investment.score, investment.rate,
-                                    investment.investment, investment.back, investment.toback])
+                                    investment.investment, investment.back, investment.toback, investment.duration, investment.remaining_period])
         
 
 app = October()
