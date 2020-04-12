@@ -56,17 +56,6 @@ multiline_title = function(long_title){ #pour écrire les titre des plots sur pl
 investments = read.csv("investments.csv", sep=";")
 
 #Plot 1
-data_rate_score = investments[,c(4, 5)] #Taux du prêt selon la catégorie
-data_rate_score$Score <- factor(data_rate_score$Score,c("A+","A","B+","B","C")) #On réordonne les modalités de Score de data
-
-plot(data_rate_score, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le score de ceux-ci"), cex.main=0.8, xlab="Score", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
-
-#Plot 2
-data_rate_country = investments[,c(3, 5)] #Taux du prêt selon le pays
-
-plot(data_rate_country, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le pays de ceux-ci"), cex.main=0.8, xlab="Pays", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
-
-#Plot 3
 data = as_tibble(investments)
 data_investment_country = data %>%
   group_by(Country) %>%
@@ -83,6 +72,17 @@ Invest = data_investment_country %>%
 ylim <- c(0, 1.1*max(Invest))
 p3 = barplot(Invest, names.arg=countries, main=multiline_title("Répartition de votre portefeuille selon les pays"), cex.main=0.8, xlab="Pays", ylab="Somme prêtée aux entreprises (en euros)", cex.axis=0.7, cex.names=0.7, width = 0.85, ylim = ylim)
 text(x = p3, y = Invest, label = as.numeric(as.character(Invest)), pos = 3, cex = 0.7, col = "black")
+
+#Plot 2
+data_rate_score = investments[,c(4, 5)] #Taux du prêt selon la catégorie
+data_rate_score$Score <- factor(data_rate_score$Score,c("A+","A","B+","B","C")) #On réordonne les modalités de Score de data
+
+plot(data_rate_score, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le score de ceux-ci"), cex.main=0.8, xlab="Score", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
+
+#Plot 3
+data_rate_country = investments[,c(3, 5)] #Taux du prêt selon le pays
+
+plot(data_rate_country, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le pays de ceux-ci"), cex.main=0.8, xlab="Pays", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
 
 
 ```
