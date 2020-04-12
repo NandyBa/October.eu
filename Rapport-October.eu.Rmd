@@ -46,6 +46,7 @@ knitr::opts_chunk$set(opts.label="kill_prefix")
 
 ```{r}
 library(tidyverse)
+library('DescTools') # pour calculer les fréquences
 
 multiline_title = function(long_title){ #pour écrire les titre des plots sur plusieures lignes
   return(gsub('(.{1,50})(\\s|$)', '\\1\n', long_title))
@@ -94,11 +95,22 @@ Le taux moyen de vos prêts est de `r gsub("\\.", ",", round(mean(data$Rate),2))
 
 ```{r}
 #Data plot
+score_order = c("A+","A","B+","B","C")
 data_rate_score = investments[,c(4, 5)] #Taux du prêt selon la catégorie
-data_rate_score$Score <- factor(data_rate_score$Score,c("A+","A","B+","B","C")) #On réordonne les modalités de Score de data
+data_rate_score$Score <- factor(data_rate_score$Score, score_order) #On réordonne les modalités de Score de data
 mean_rate = mean(data$Rate)
 plot(data_rate_score, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le score de ceux-ci"), cex.main=0.8, xlab="Score", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
 abline(h=mean_rate,lwd=1,col="black",lty=2) #Trace en pointillés le taux moyen des prêts
+
+```
+```{r}
+scoreFreq = 100 * Freq(data$Score)$perc
+scores = score_order
+
+ylim <- c(0, 1.1*max(scoreFreq))
+p3 = barplot(scoreFreq, names.arg=scores, main=multiline_title("Répartition de votre portefeuille selon le score des entreprises empruntantes"), cex.main=0.75, width = 0.95, ylim = ylim, yaxt='n')
+text(x = p3, y = scoreFreq, label = paste(as.numeric(as.character(round(scoreFreq,2))),"%"), pos = 3, cex = 0.7, col = "black")
+
 
 #data plot
 data_rate_country = investments[,c(3, 5)] #Taux du prêt selon le pays
