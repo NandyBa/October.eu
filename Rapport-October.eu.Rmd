@@ -61,7 +61,7 @@ Jusqu'à présent vous avez prêté votre argent à `r count(data) ` projets don
 ## Répartition géographique de vos prêts
 
 ```{r}
-#data plot 1
+#data plot
 data = as_tibble(investments)
 data_investment_country = data %>%
   group_by(Country) %>%
@@ -93,14 +93,14 @@ abline(h=m,lwd=1,col="black",lty=2) #Trace en pointillés la moyenne des investi
 Le taux moyen de vos prêts est de `r gsub("\\.", ",", round(mean(data$Rate),2))` % (avant défaut).
 
 ```{r}
-#Data plot 2
+#Data plot
 data_rate_score = investments[,c(4, 5)] #Taux du prêt selon la catégorie
 data_rate_score$Score <- factor(data_rate_score$Score,c("A+","A","B+","B","C")) #On réordonne les modalités de Score de data
 mean_rate = mean(data$Rate)
 plot(data_rate_score, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le score de ceux-ci"), cex.main=0.8, xlab="Score", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
 abline(h=mean_rate,lwd=1,col="black",lty=2) #Trace en pointillés le taux moyen des prêts
 
-#data plot 3
+#data plot
 data_rate_country = investments[,c(3, 5)] #Taux du prêt selon le pays
 
 plot(data_rate_country, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le pays de ceux-ci"), cex.main=0.8, xlab="Pays", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
