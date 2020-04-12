@@ -16,6 +16,6 @@ II - Modifier le fichier secret.py
 
 III - Lancer le fichier october.eu.py dans le prompt. Vous devriez voir apparaître une fenêtre de votre navigateur web qui se connecte automatiquement à votre compte October.eu. Lancer alors la commande app. Au bout 1 minute environ vous devriez voir apparaître un fichier csv dans votre dossier.
 
-IV - Lancer alors le script investments-analyse. Pour le lancer à partir R-Studio il vous suffit de faire un double click sur investments-analyse.R et appuyer simultannément sur Ctrl + alt + R.
+IV - Lancer alors le script rapport-october.eu.rmd. Pour le lancer à partir R-Studio il vous suffit de faire un double click dessus puis d'appuyer sur le bouton Knit.
 
-Si vous avez bien appliquez toute les consignes votre rapport pdf est généré et vous pouvez librement le consulter.
+Si vous avez bien appliquez toutes les consignes votre rapport pdf est généré et vous pouvez librement le consulter. Bonne lecture.
