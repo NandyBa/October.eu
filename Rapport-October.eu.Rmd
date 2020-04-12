@@ -1,0 +1,89 @@
+---
+title: "Rapport sur vos investissements sur October.eu"
+date: "12/04/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, comment=NA, null_prefix=TRUE)
+
+
+# A Prefix nulling hook.
+
+# Make sure to keep the default for normal processing.
+default_output_hook <- knitr::knit_hooks$get("output")
+
+# Output hooks handle normal R console output.
+knitr::knit_hooks$set( output = function(x, options) {
+
+  comment <- knitr::opts_current$get("comment")
+  if( is.na(comment) ) comment <- ""
+  can_null <- grepl( paste0( comment, "\\s*\\[\\d?\\]" ),
+                     x, perl = TRUE)
+  do_null <- isTRUE( knitr::opts_current$get("null_prefix") )
+  if( can_null && do_null ) {
+    # By default R print output aligns at the right brace.
+    align_index <- regexpr( "\\]", x )[1] - 1
+    # Two cases: start or newline
+    re <- paste0( "^.{", align_index, "}\\]")
+    rep <- comment
+    x <- gsub( re, rep,  x )
+    re <- paste0( "\\\n.{", align_index, "}\\]")
+    rep <- paste0( "\n", comment )
+    x <- gsub( re, rep,  x )
+  }
+
+  default_output_hook( x, options )
+
+})
+
+knitr::opts_template$set("kill_prefix"=list(comment=NA, null_prefix=TRUE))
+knitr::opts_chunk$set(opts.label="kill_prefix")
+```
+
+<font size="0.5">Git Repo: https://github.com/NandyBa/October.eu</font>
+
+
+## Répartition des prêts
+
+```{r}
+library(tidyverse)
+
+multiline_title = function(long_title){ #pour écrire les titre des plots sur plusieures lignes
+  return(gsub('(.{1,50})(\\s|$)', '\\1\n', long_title))
+}
+
+investments = read.csv("investments.csv", sep=";")
+
+#Plot 1
+data_rate_score = investments[,c(4, 5)] #Taux du prêt selon la catégorie
+data_rate_score$Score <- factor(data_rate_score$Score,c("A+","A","B+","B","C")) #On réordonne les modalités de Score de data
+
+plot(data_rate_score, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le score de ceux-ci"), cex.main=0.8, xlab="Score", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
+
+#Plot 2
+data_rate_country = investments[,c(3, 5)] #Taux du prêt selon le pays
+
+plot(data_rate_country, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le pays de ceux-ci"), cex.main=0.8, xlab="Pays", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
+
+#Plot 3
+data = as_tibble(investments)
+data_investment_country = data %>%
+  group_by(Country) %>%
+  mutate(total = sum(Investment)) %>%
+  select(Country, total) %>%
+  distinct()
+
+countries = data_investment_country %>%
+  pull(Country)
+Invest = data_investment_country %>%
+  pull(total)
+
+## On augmente un petit peu ylim pour pouvoir afficher la somme investis en haut de la barre de chaque pays
+ylim <- c(0, 1.1*max(Invest))
+p3 = barplot(Invest, names.arg=countries, main=multiline_title("Répartition de votre portefeuille selon les pays"), cex.main=0.8, xlab="Pays", ylab="Somme prêtée aux entreprises (en euros)", cex.axis=0.7, cex.names=0.7, width = 0.85, ylim = ylim)
+text(x = p3, y = Invest, label = as.numeric(as.character(Invest)), pos = 3, cex = 0.7, col = "black")
+
+
+```
+
