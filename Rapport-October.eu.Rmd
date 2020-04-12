@@ -70,7 +70,7 @@ data_investment_country = data %>%
   distinct()
 ```
 
-Vous avez prêté à des entreprises européennes de `r count(data%>%select(Country) %>% distinct()) ` pays différents. Le tout pour un montant moyen par pays de `r mean(data_investment_country$total)` euros.
+Vous avez prêté à des entreprises européennes de `r count(data%>%select(Country) %>% distinct()) ` pays différents (`r unlist(data%>%select(Country) %>% distinct())`). Le tout pour un montant moyen par pays de `r mean(data_investment_country$total)` euros.
 
 ```{r}
 countries = data_investment_country %>%
