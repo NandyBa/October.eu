@@ -68,9 +68,10 @@ data_investment_country = data %>%
   mutate(total = sum(Investment)) %>%
   select(Country, total) %>%
   distinct()
+m = mean(data_investment_country$total)
 ```
 
-Vous avez prêté à des entreprises européennes de `r count(data%>%select(Country) %>% distinct()) ` pays différents (`r unlist(data%>%select(Country) %>% distinct())`). Le tout pour un montant moyen par pays de `r mean(data_investment_country$total)` euros.
+Vous avez prêté à des entreprises européennes de `r count(data%>%select(Country) %>% distinct()) ` pays différents (`r unlist(data%>%select(Country) %>% distinct())`). Le tout pour un montant moyen par pays de `r m` euros.
 
 ```{r}
 countries = data_investment_country %>%
@@ -82,6 +83,7 @@ Invest = data_investment_country %>%
 ylim <- c(0, 1.1*max(Invest))
 p3 = barplot(Invest, names.arg=countries, main=multiline_title("Répartition de votre portefeuille selon les pays"), cex.main=0.75, width = 0.95, ylim = ylim, yaxt='n')
 text(x = p3, y = Invest, label = as.numeric(as.character(Invest)), pos = 3, cex = 0.7, col = "black")
+abline(h=m,lwd=1,col="black",lty=2) #Trace en pointillés la moyenne des investisement par pays
 ```
 
 \pagebreak
@@ -94,13 +96,15 @@ Le taux moyen de vos prêts est de `r gsub("\\.", ",", round(mean(data$Rate),2))
 #Data plot 2
 data_rate_score = investments[,c(4, 5)] #Taux du prêt selon la catégorie
 data_rate_score$Score <- factor(data_rate_score$Score,c("A+","A","B+","B","C")) #On réordonne les modalités de Score de data
-
+mean_rate = mean(data$Rate)
 plot(data_rate_score, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le score de ceux-ci"), cex.main=0.8, xlab="Score", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
+abline(h=mean_rate,lwd=1,col="black",lty=2) #Trace en pointillés le taux moyen des prêts
 
 #data plot 3
 data_rate_country = investments[,c(3, 5)] #Taux du prêt selon le pays
 
 plot(data_rate_country, main=multiline_title("Répartition des taux des projets de votre portefeuille selon le pays de ceux-ci"), cex.main=0.8, xlab="Pays", ylab="Taux des prêts", cex.axis=0.7, cex.lab=0.8)
+abline(h=mean_rate,lwd=1,col="black",lty=2) #Trace en pointillés le taux moyen des prêts
 
 
 ```
