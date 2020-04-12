@@ -56,7 +56,7 @@ data = as_tibble(investments)
 ```
 # Résumé
 
-Jusqu'à présent vous avez prêté votre argent à `r count(data) ` projets de `r count(data%>%select(Company.name) %>% distinct()) ` entreprises, pour un montant total de `r sum(data$Investment)`€ et un montant moyen de `r mean(data$Investment)`€ par prêts.
+Jusqu'à présent vous avez prêté votre argent à `r count(data) ` projets dont `r count(filter(data, Mois.restants == 0))` vous ont déjà totalement remboursé. En tout vous avez aidez `r count(data%>%select(Company.name) %>% distinct()) ` entreprises à se développer ou à passer un coup dur, pour un montant total de `r sum(data$Investment)`€ et un montant moyen de `r mean(data$Investment)`€ par prêts.
 
 ## Répartition géographique de vos prêts
 
